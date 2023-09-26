@@ -8,6 +8,13 @@ print(in_data)
 print('Tong so sinh vien di thi :')
 tongsv= in_data[:,1]
 print(np.sum(tongsv))
+
+print("Ty le % sinh vien dat :") #thêm tỷ lệ phần trăm
+svF = in_data[:,10]
+svDat = np.subtract(tongsv,svF)
+tyle = np.divide(np.sum(svDat),np.sum(tongsv))*100
+print(str(tyle) + "%")
+
 diemA = in_data[:,3]
 diemBc = in_data[:,4]
 print('Tong sv:',tongsv)
