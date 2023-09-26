@@ -8,8 +8,13 @@ print(in_data)
 print('Tong so sinh vien di thi :')
 tongsv= in_data[:,1]
 print(np.sum(tongsv))
+SUMSV = np.sum(tongsv)
 diemA = in_data[:,3]
 diemBc = in_data[:,4]
+diemF = in_data[:,10]
+tongsvF = np.sum(diemF)
+SoSvQuaMon = (1 - tongsvF/SUMSV)*100
+print(f"Trung binh so sv qua mon la: {SoSvQuaMon}")
 print('Tong sv:',tongsv)
 maxa = diemA.max()
 i, = np.where(diemA == maxa)
