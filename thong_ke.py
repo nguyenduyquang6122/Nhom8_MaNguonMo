@@ -21,6 +21,17 @@ print('Tong sv:',tongsv)
 maxa = diemA.max()
 i, = np.where(diemA == maxa)
 print('lop co nhieu diem A la {0} co {1} sv dat diem A'.format(in_data[i,0],maxa))
+
+#so sanh điểm A với B+
+tongA = diemA.sum()
+tongBc=diemBc.sum()
+print('so sv diem A ',tongA)
+print('so sv diem B+',tongBc)
+if tongA <= tongBc:
+    print('it sv diem A hon B+')
+else:
+    print('nhieu sv diem A hon B+')
+
 plt.plot(range(len(diemA)),diemA,'r-',label="Diem A")
 plt.plot(range(len(diemBc)),diemBc,'g-',label="Diem B +")
 plt.xlabel('Lơp')
