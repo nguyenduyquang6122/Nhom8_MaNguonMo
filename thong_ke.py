@@ -39,6 +39,16 @@ if tongA <= tongBc:
 else:
     print('nhieu sv diem A hon B+')
 
+# Hiển thị thông tin về số SV thi, số SV đạt và số SV trượt
+# Lấy dữ liệu điểm từ DataFrame
+diem_data = df.iloc[:, 2:16]
+so_sv_thi = df.shape[0]
+so_sv_dat = (diem_data != 'F').sum().sum()
+so_sv_truot = so_sv_thi - so_sv_dat
+print('Tổng số sinh viên đi thi: {0}'.format(so_sv_thi))
+print('Tổng số sinh viên thi đạt: {0}'.format(so_sv_dat))
+print('Tổng số sinh viên thi trượt: {0}'.format(so_sv_truot))
+
 plt.plot(range(len(diemA)),diemA,'r-',label="Diem A")
 plt.plot(range(len(diemBc)),diemBc,'g-',label="Diem B +")
 plt.xlabel('Lơp')
