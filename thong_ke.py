@@ -8,7 +8,7 @@ print(in_data)
 print('Tong so sinh vien di thi :')
 tongsv= in_data[:,1]
 print(np.sum(tongsv))
-
+print("hello")
 SUMSV = np.sum(tongsv)
 
 print("Ty le % sinh vien dat :") #thêm tỷ lệ phần trăm
