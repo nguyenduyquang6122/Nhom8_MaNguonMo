@@ -30,6 +30,16 @@ class EquationSolverApp(QMainWindow):
         self.result_text = QTextEdit()
         self.layout.addWidget(self.result_text)
 
+        self.limit_label = QLabel("Tính giới hạn (x tiến đến):")
+        self.layout.addWidget(self.limit_label)
+
+        self.limit_input = QLineEdit()
+        self.layout.addWidget(self.limit_input)
+
+        self.limit_button = QPushButton("Tính giới hạn")
+        self.limit_button.clicked.connect(self.calculate_limit)
+        self.layout.addWidget(self.limit_button)
+
         self.central_widget.setLayout(self.layout)
 
     def solve_equation(self):
@@ -42,7 +52,17 @@ class EquationSolverApp(QMainWindow):
             self.result_text.setPlainText(result)
         except Exception as e:
             self.result_text.setPlainText(f"Lỗi: {e}")
-
+    
+    def calculate_limit(self):
+        equation_str = self.equation_input.text()
+        limit_value_str = self.limit_input.text()
+        try:
+            x = sym.symbols('x')
+            equation = sym.sympify(equation_str)
+            limit_value = sym.limit(equation, x, float(limit_value_str))
+            self.result_text.setPlainText(f"Giới hạn khi x tiến đến {limit_value_str} là: {limit_value}")
+        except Exception as e:
+            self.result_text.setPlainText(f"Lỗi: {e}")
 def main():
     app = QApplication(sys.argv)
     window = EquationSolverApp()
