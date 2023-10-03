@@ -20,17 +20,16 @@ class EquationSolverApp(QMainWindow):
         self.equation_input = QLineEdit()
         self.layout.addWidget(self.equation_input)
 
+        self.limit_button = QPushButton("Tính giới hạn")
+        self.limit_button.clicked.connect(self.calculate_limit)
+        self.layout.addWidget(self.limit_button)
+
+        self.integral_button = QPushButton("Nguyên hàm")
+        self.integral_button.clicked.connect(self.calculate_integral)
+        self.layout.addWidget(self.integral_button)
+
         self.solve_button = QPushButton("Giải")
         self.solve_button.clicked.connect(self.solve_equation)
-        self.layout.addWidget(self.solve_button)
-        self.solve_button = QPushButton("đạo hàm")
-        self.solve_button.clicked.connect(self.daoham)
-        self.layout.addWidget(self.solve_button)
-        self.solve_button = QPushButton("tích phân")
-        self.solve_button.clicked.connect(self.tich_phan)
-        self.layout.addWidget(self.solve_button)
-        self.solve_button = QPushButton("hệ pt")
-        self.solve_button.clicked.connect(self.hept)
         self.layout.addWidget(self.solve_button)
 
         self.result_label = QLabel("Kết quả:")
@@ -38,6 +37,14 @@ class EquationSolverApp(QMainWindow):
 
         self.result_text = QTextEdit()
         self.layout.addWidget(self.result_text)
+
+        self.limit_label = QLabel("Tính giới hạn (x tiến đến):")
+        self.layout.addWidget(self.limit_label)
+
+        self.limit_input = QLineEdit()
+        self.layout.addWidget(self.limit_input)
+
+      
 
         self.central_widget.setLayout(self.layout)
 
@@ -51,36 +58,42 @@ class EquationSolverApp(QMainWindow):
             self.result_text.setPlainText(result)
         except Exception as e:
             self.result_text.setPlainText(f"Lỗi: {e}")
-    def hept(self):
+    
+    def calculate_limit(self):
         equation_str = self.equation_input.text()
-        try:
-            x = sym.symbols('x')
-            y = sym.symbols('y')
-            equation = sym.sympify(equation_str)
-            solution = sym.solve(equation, (x,y))
-            n1 = solution[x]
-            n2 = solution[y]
-            self.result_text.setPlainText(f"nghiem x la: { n1}        nghiem y la: {n2}")
-        except Exception as e:
-            self.result_text.setPlainText(f"Lỗi: {e}")
-    def tich_phan(self):
-        equation_str = self.equation_input.text()
+        limit_value_str = self.limit_input.text()
         try:
             x = sym.symbols('x')
             equation = sym.sympify(equation_str)
-            tichphan = sym.integrate(equation,x)
-            self.result_text.setPlainText(f"tich phan: {tichphan}")
+            limit_value = sym.limit(equation, x, float(limit_value_str))
+            self.result_text.setPlainText(f"Giới hạn khi x tiến đến {limit_value_str} là: {limit_value}")
         except Exception as e:
             self.result_text.setPlainText(f"Lỗi: {e}")
+
+    def calculate_integral(self):
+        equation_str = self.equation_input.text()
+        try:
+            x = sym.symbols('x')
+            equation = sym.sympify(equation_str)
+            integral = sym.integrate(equation, x)
+            self.result_text.setPlainText(f"Nguyên hàm của phương trình là: {integral}")
+        except Exception as e:
+            self.result_text.setPlainText(f"Lỗi: {e}")
+
     def daoham(self):
         equation_str = self.equation_input.text()
+        n = int(self.cap_dao_ham.text())  # Lấy cấp đạo hàm từ người dùng
         try:
             x = sym.symbols('x')
-            equation = sym.sympify(equation_str)
-            daoham = sym.diff(equation,x)
-            self.result_text.setPlainText(f"dao ham: {daoham}")
+            equation = sym.Eq(sym.sympify(equation_str), 0)
+            # Tính đạo hàm cấp n của phương trình
+            derivative = sym.diff(equation.lhs, x, n)
+            # Hiển thị kết quả đạo hàm trên giao diện
+            self.result_text.setPlainText(str(derivative))
         except Exception as e:
             self.result_text.setPlainText(f"Lỗi: {e}")
+    
+
 def main():
     app = QApplication(sys.argv)
     window = EquationSolverApp()
