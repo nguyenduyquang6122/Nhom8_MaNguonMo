@@ -63,6 +63,19 @@ class EquationSolverApp(QMainWindow):
             self.result_text.setPlainText(f"Giới hạn khi x tiến đến {limit_value_str} là: {limit_value}")
         except Exception as e:
             self.result_text.setPlainText(f"Lỗi: {e}")
+    def daoham(self):
+        equation_str = self.equation_input.text()
+        n = int(self.cap_dao_ham.text())  # Lấy cấp đạo hàm từ người dùng
+        try:
+            x = sym.symbols('x')
+            equation = sym.Eq(sym.sympify(equation_str), 0)
+            # Tính đạo hàm cấp n của phương trình
+            derivative = sym.diff(equation.lhs, x, n)
+            # Hiển thị kết quả đạo hàm trên giao diện
+            self.result_text.setPlainText(str(derivative))
+        except Exception as e:
+            self.result_text.setPlainText(f"Lỗi: {e}")
+    
 def main():
     app = QApplication(sys.argv)
     window = EquationSolverApp()
