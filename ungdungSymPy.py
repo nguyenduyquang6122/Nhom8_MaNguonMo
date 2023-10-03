@@ -20,6 +20,14 @@ class EquationSolverApp(QMainWindow):
         self.equation_input = QLineEdit()
         self.layout.addWidget(self.equation_input)
 
+        self.limit_button = QPushButton("Tính giới hạn")
+        self.limit_button.clicked.connect(self.calculate_limit)
+        self.layout.addWidget(self.limit_button)
+
+        self.integral_button = QPushButton("Nguyên hàm")
+        self.integral_button.clicked.connect(self.calculate_integral)
+        self.layout.addWidget(self.integral_button)
+
         self.solve_button = QPushButton("Giải")
         self.solve_button.clicked.connect(self.solve_equation)
         self.layout.addWidget(self.solve_button)
@@ -36,9 +44,7 @@ class EquationSolverApp(QMainWindow):
         self.limit_input = QLineEdit()
         self.layout.addWidget(self.limit_input)
 
-        self.limit_button = QPushButton("Tính giới hạn")
-        self.limit_button.clicked.connect(self.calculate_limit)
-        self.layout.addWidget(self.limit_button)
+      
 
         self.central_widget.setLayout(self.layout)
 
@@ -61,6 +67,15 @@ class EquationSolverApp(QMainWindow):
             equation = sym.sympify(equation_str)
             limit_value = sym.limit(equation, x, float(limit_value_str))
             self.result_text.setPlainText(f"Giới hạn khi x tiến đến {limit_value_str} là: {limit_value}")
+        except Exception as e:
+            self.result_text.setPlainText(f"Lỗi: {e}")
+    def calculate_integral(self):
+        equation_str = self.equation_input.text()
+        try:
+            x = sym.symbols('x')
+            equation = sym.sympify(equation_str)
+            integral = sym.integrate(equation, x)
+            self.result_text.setPlainText(f"Nguyên hàm của phương trình là: {integral}")
         except Exception as e:
             self.result_text.setPlainText(f"Lỗi: {e}")
 def main():
