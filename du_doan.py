@@ -7,9 +7,10 @@ from numpy import array
 tf.disable_v2_behavior()
 # Generating random linear data
 # There will be 50 data points ranging from 0 to 50
-'''df=pd.read_csv('Student_Performance.csv',index_col=0,header = 0)
+df=pd.read_csv('Student_Performance.csv',index_col=0,header = 0)
 x = array(df.iloc[:900,:5])
 y = array(df.iloc[:900,5:6])
+n = len(x)
 '''
 #Tạo tâp giá trị x và y
 x = np.linspace(0, 50, 50)
@@ -25,12 +26,13 @@ plt.xlabel('x')
 plt.ylabel('y')
 plt.title("Training Data")
 plt.show()
+'''
 # Tạo model cho tập dữ liệu
 X = tf.placeholder("float")
 Y = tf.placeholder("float")
 # khởi tạo biến w và b
 W = tf.Variable(np.random.randn(), name = "W")
-b = tf.Variable(np.random.randn(), name = "b")
+b = tf.Variable(np.random.randn(), name = "b") 
 # thiết lập tốc độ học
 learning_rate = 0.01
 # số vòng lặp
