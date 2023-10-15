@@ -35,13 +35,7 @@ def main():
             if dem % 4 != 0:
                 img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
         elif key == ord('+'):  # phóng to
-            zoom = zoom + 1
-            if dem % 3 == 0:
-                img = cv2.imread('tenhinh.jpg')
-            if dem % 3 == 1:
-                img = cv2.resize(img, None, fx=1.5, fy=1.5)
-            if dem % 3 == 2:
-                img = cv2.resize(img, None, fx=0.5, fy=0.5)
+            zoomin = not zoomin
         elif key == ord('f'):  # Tạo ảnh lật
             flip = not flip
         elif key == ord('g'):  # Tạo ảnh xám
@@ -65,15 +59,9 @@ def apply_adjustments(img, rotate,zoomin,flip, gray):
         if dem % 4 != 0:
             img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
     if zoomin:
-        zoom = zoom + 1
-        if dem%3==0:
-            img = cv2.imread('tenhinh.jpg')
-        if dem%3==1:
-            img = cv2.resize(img,None,fx=1.5,fy=1.5)
-        if dem%3==2:
-            img = cv2.resize(img,None,fx=0.5,fy=0.5)
+        img = cv2.resize(img,None,fx=1.5,fy=1.5)
     if flip:
-        img = cv2.flip(img, cv2.FLIP_TOP_BOTTOM)
+        img = cv2.flip(img, 1)
     # Tạo ảnh xám
     if gray:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
