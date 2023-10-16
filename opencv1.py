@@ -7,10 +7,8 @@ from PIL import Image
 import numpy as np
 win = Tk()
 win.title("chinhsuaanh")
-win.geometry('700x900')
+win.geometry('500x100')
 
-label = Label(win, text="Ảnh đã chọn:")
-label.place(x=10,y=50)
 # Tạo nhãn để hiển thị ảnh gốc
 
 image = None
@@ -19,29 +17,23 @@ img = None
 xoay = 0
 zoom = 1
 dem = 0
-cv2.namedWindow('ChinhSuaAnh',cv2.WINDOW_NORMAL)
+
 def select_image():
     global image
     global tk_image
     global xoay
     global zoom
     # Mở hộp thoại chọn ảnh
-    filename = askopenfilename(filetypes=[("*.jpg", "*.png")])
+    filename = askopenfilename(filetypes=[("JPEG", "*.jpg"), ("PNG", "*.png"), ("GIF", "*.gif"), ("BMP", "*.bmp")])
     cv2.destroyAllWindows()
     xoay = 0
-    zoom = 0
+    zoom = 1
     # Nếu người dùng chọn ảnh
     if filename:
         # Đọc ảnh và lưu vào biến image
-        print(filename)
-        path = pathlib.Path(filename)
-        print(path)
-        anh = str(path)
-        anh1 = anh.strip('\'')
-        image = cv2.imread(anh1)
-        tk_image = PhotoImage(file=path)
-        # Hiển thị ảnh gốc lên nhãn
-        label.config(image=tk_image)
+        image = cv2.imread(filename)
+        img = image.copy()
+        cv2.imshow("Anh Goc", img)
     else:
         # Nếu người dùng không chọn ảnh, hiển thị thông báo
         tkinter.messagebox.showwarning("Cảnh báo", "Bạn chưa chọn ảnh!")
