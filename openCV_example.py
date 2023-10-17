@@ -32,13 +32,17 @@ class ImageApp(QMainWindow):
         self.btn_flip = QPushButton("Lật ảnh", self)
         self.btn_rotate = QPushButton("Xoay ảnh")
         self.btn_cartoon = QPushButton("Tạo ảnh cartoon", self)
-
+        self.btn_apply_blur = QPushButton("Làm mờ", self)
+        self.btn_apply_sharpness = QPushButton("Tăng độ tương phản", self)
+        
         self.btn_select_image.clicked.connect(self.open_file_dialog)
         self.btn_histogram.clicked.connect(self.plot_histogram)
         self.btn_gray.clicked.connect(self.create_gray_image)
         self.btn_flip.clicked.connect(self.create_flip_image)
         self.btn_rotate.clicked.connect(self.create_rotate_image)
         self.btn_cartoon.clicked.connect(self.create_cartoon_image)
+        self.btn_apply_blur.clicked.connect(self.apply_blur)
+        self.btn_apply_sharpness.clicked.connect(self.apply_sharpness)
 
         left_layout = QVBoxLayout()
         right_layout = QGridLayout()
@@ -49,6 +53,8 @@ class ImageApp(QMainWindow):
         right_layout.addWidget(self.btn_flip)
         right_layout.addWidget(self.btn_rotate)
         right_layout.addWidget(self.btn_cartoon)
+        right_layout.addWidget(self.btn_apply_blur)
+        right_layout.addWidget(self.btn_apply_sharpness)
         right_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         main_layout = QHBoxLayout()
@@ -66,7 +72,7 @@ class ImageApp(QMainWindow):
 
     def open_file_dialog(self):
         dialog = QFileDialog(self)
-        dialog.setDirectory(r'C:\images')
+        dialog.setDirectory(r'C:\Users\ADMIN\Downloads\New folder')
         dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
         dialog.setNameFilter("Images (*.png *.jpg *.jpeg)")
         dialog.setViewMode(QFileDialog.ViewMode.List)
@@ -131,7 +137,19 @@ class ImageApp(QMainWindow):
         cartoon = cv2.bitwise_and(color, color, mask = edges)
         # Hiển thị ảnh cartoon
         cv2.imshow("Cartoon image", cartoon)
-
+    def apply_blur(self):
+        if self.filename:
+            image = cv2.imread(self.filename)
+            blurred_image = cv2.GaussianBlur(image, (11, 11), 0)
+            cv2.imshow('Blurred Image', blurred_image)
+    def apply_sharpness(self):
+        if self.filename:
+            image = cv2.imread(self.filename)
+            kernel = np.array([[-1, -1, -1],
+                               [-1, 9, -1],
+                               [-1, -1, -1]])
+            sharpened_image = cv2.filter2D(image, -1, kernel)
+            cv2.imshow('Sharpened Image', sharpened_image)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
