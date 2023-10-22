@@ -118,12 +118,12 @@ class ImageApp(QMainWindow):
     
     def create_rotate_image(self):
         image = cv2.imread(self.filename)
-        rotated_img = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
-        cv2.imshow('Rotate image', rotated_img)
+        self.count = (self.count + 1) % 4
+        image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE * self.count)
+        cv2.imshow('Rotate image', image)
     
     def create_cartoon_image(self):
         image = cv2.imread(self.filename, cv2.IMREAD_UNCHANGED) # trả về ảnh bao gồm cả kênh alpha (có độ trong suốt)
-        cv2.imshow("test",image)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         blurImage = cv2.medianBlur(gray, 5)
         edges = cv2.adaptiveThreshold(blurImage, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
